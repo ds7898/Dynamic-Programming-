@@ -1,0 +1,198 @@
+#include <iostream>
+#include<string>
+using namespace std;
+
+
+
+int editDistance_dp( string s1,string s2){
+    
+    
+    int m = s1.size();
+    int n= s2.size();
+    
+    
+    int **output= new int*[m+1];
+    for(int  i=0 ; i<n ; i++)
+    {
+        output[i]= new int [n+1]
+    }
+    
+    //fill first row 
+    
+    for(int  i =0 ; i< n ; i++)
+    {
+        output[0][i]=i;
+    }
+    
+    // fill first column 
+    
+    for(int j = 1 ; j< n ; j++)
+    {
+        output[j][0]=j;
+    }
+    
+    
+    for(int  i = 0 ; i, n ; i++)
+    {
+        for(int  j =0; j< n ;j++)
+        {
+            
+            if(s1[m-i] == s2[n-j])
+            {
+                output[i][j]= output[i-1][j-1];
+            }
+            
+            else
+            {
+                
+              int x = output[i][j-1];
+              int y = output[i-1][j];
+              int z =output[i-1][j-1];
+              
+              output[i][j] = min(x,min(y,z))+1;
+              
+              
+            }
+        
+        }
+    }
+    
+    
+    return output[m][n];
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+// memoziation 
+int editDistance_mem(string s1 ,string s2 , int **output){
+    
+   
+   int m = s1.size();
+   int n =  s2.size();
+   
+   
+    // base case 
+    
+    
+    
+    if (s1.size()==0 || s2.size()== 0)
+    
+{
+    return max(s1.size(),s2.size());
+}    
+    
+    //check if the ans already exist
+    
+    if(output[m][n]!=-1)
+    {
+        return output[m][n];
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    // Recursive calls 
+    
+     int x,y,z;
+  int ans;
+  if(s1[0]==s2[0])
+  {
+      ans = editDistance_mem(s1.substr(1),s2.substr(1),output);
+  }
+  else {
+      
+   //insert
+   
+   x = editDistance_mem(s1,s2.substr(1),output)+1;
+   //Delete
+ 
+    y= editDistance_mem(s1.substr(1),s2,output)+1;
+ 
+    //Replace 
+ 
+    z = editDistance_mem(s1.substr(1),s2.substr(1),output)+1;
+  
+  
+  
+    ans = min(x,min(y,z));
+  
+  
+  }
+  
+  
+  
+  
+  //now save the answer 
+  
+     output[m][n]= ans;
+      
+      
+  
+  
+  return ans; 
+    
+    
+}
+
+
+int editDistance(string s1, string s2) {
+	int m = s1.size();
+	int n = s2.size();
+	int **ans = new int*[m+1];
+	for(int i = 0; i <= m; i++)
+	{
+		ans[i] = new int[n+1];
+		for(int j = 0; j <= n; j++)
+		{
+			ans[i][j] = -1;
+		}
+	}
+
+    return editDistance_mem( s1 , s2, ans);
+    
+
+}
+*/
+int main()
+{
+    string s1;
+	string s2;
+
+	cin >> s1;
+	cin >> s2;
+
+	cout << editDistance_dp(s1, s2) << endl;
+}
